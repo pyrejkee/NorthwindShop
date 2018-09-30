@@ -1,0 +1,35 @@
+﻿@model List<NorthwindShop.Web.ViewModels.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Products</h1>
+
+<table>
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Quantity Per Unit</td>
+        <td>Unit Price</td>
+        <td>Units in stock</td>
+        <td>Units on order</td>
+        <td>Category</td>
+        <td>Supplier</td>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.QuantityPerUnit</td>
+                <td>@product.UnitPrice</td>
+                <td>@product.UnitsInStock</td>
+                <td>@product.UnitsOnOrder</td>
+                <td>@product.CategoryName</td>
+                <td>@product.SupplierName</td>
+            </tr>
+        }
+    </tbody>
+</table>

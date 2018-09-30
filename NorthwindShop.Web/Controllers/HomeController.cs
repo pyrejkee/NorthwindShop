@@ -14,14 +14,7 @@ namespace NorthwindShop.Web.Controllers
 
         public IActionResult Index()
         {
-            // For test purposes, will be deleted soon
-            var allProducts = _productService.Get();
-            var allProductsByFunc = _productService.Get(x => x.ProductName.StartsWith("Kirya"));
-            var productsWithInclude = _productService.GetWithInclude(s => s.Supplier, od => od.OrderDetails, c => c.Category);
-            var productsWithIncludeByFunc =
-                _productService.GetWithInclude(x => x.ProductName.StartsWith("Kirya"), od => od.OrderDetails);
-
-            return View(productsWithInclude);
+            return View();
         }
     }
 }

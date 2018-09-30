@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using AutoMapper;
+using NorthwindShop.BLL.EntitiesDTO;
 using NorthwindShop.DAL.Entities;
 using NorthwindShop.DAL.Interfaces;
 using NorthwindShop.BLL.Services.Interfaces;
@@ -11,20 +13,28 @@ namespace NorthwindShop.BLL.Services.Implementations
     internal sealed class ProductService : IProductService
     {
         private readonly IRepository<Product> _repository;
+        private readonly IMapper _mapper;
 
-        public ProductService(IRepository<Product> repository)
+        public ProductService(IRepository<Product> repository,
+                              IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public List<Product> Get()
+        public List<ProductDTO> Get()
         {
-            return _repository.Get().ToList();
+            var productsFromRepo = _repository.Get().ToList();
+            var products = _mapper.Map<List<ProductDTO>>(productsFromRepo);
+
+            return products;
         }
 
-        public List<Product> Get(Func<Product, bool> predicate)
+        public List<ProductDTO> Get(Func<Product, bool> predicate)
         {
-            return _repository.Get(predicate).ToList();
+            var productsFromRepo = _repository.Get(predicate);
+            var products = _mapper.Map<List<ProductDTO>>(productsFromRepo);
+            return products;
         }
 
         public void Add(Product product)
@@ -32,29 +42,38 @@ namespace NorthwindShop.BLL.Services.Implementations
             _repository.Add(product);
         }
 
-        public Product GetById(int id)
+        public ProductDTO GetById(int id)
         {
-            return _repository.GetById(id);
+            var productFromRepo = _repository.GetById(id);
+            var product = _mapper.Map<ProductDTO>(productFromRepo);
+            return product;
         }
 
-        public List<Product> GetWithInclude(params Expression<Func<Product, object>>[] includeProperties)
+        public List<ProductDTO> GetWithInclude(params Expression<Func<Product, object>>[] includeProperties)
         {
-            return _repository.GetWithInclude(includeProperties).ToList();
+            var productsFromRepo = _repository.GetWithInclude(includeProperties).ToList();
+            var products = _mapper.Map<List<ProductDTO>>(productsFromRepo);
+
+            return products;
         }
 
-        public List<Product> GetWithInclude(Func<Product, bool> predicate, params Expression<Func<Product, object>>[] includeProperties)
+        public List<ProductDTO> GetWithInclude(Func<Product, bool> predicate, params Expression<Func<Product, object>>[] includeProperties)
         {
-            return _repository.GetWithInclude(predicate, includeProperties).ToList();
+            var productFromRepo = _repository.GetWithInclude(predicate, includeProperties);
+            var products = _mapper.Map<List<ProductDTO>>(productFromRepo);
+            return products;
         }
 
-        public void Update(Product product)
+        public void Update(ProductDTO product)
         {
-            _repository.Update(product);
+            var productToRepo = _mapper.Map<Product>(product);
+            _repository.Update(productToRepo);
         }
 
-        public void Remove(Product product)
+        public void Remove(ProductDTO product)
         {
-            _repository.Remove(product);
+            var productToRepo = _mapper.Map<Product>(product);
+            _repository.Remove(productToRepo);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NorthwindShop.DAL.Extensions;
 using NorthwindShop.BLL.Services.Implementations;
@@ -12,6 +13,7 @@ namespace NorthwindShop.BLL.Extensions
         {
             services.RegisterRepositories(configuration);
             services.AddScoped<IProductService, ProductService>();
+            services.AddAutoMapper();
 
             return services;
         }
