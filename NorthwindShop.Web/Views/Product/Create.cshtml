@@ -1,0 +1,19 @@
+﻿@model CreateProductViewModel
+
+<h1>Create Product</h1>
+
+<form asp-controller="Product" asp-action="Create" method="post">
+    <label asp-for="Name"/>
+    <input type="text" asp-for="Name" />
+
+    <label asp-for="UnitPrice"/>
+    <input type="number" min="0" step="1" asp-for="UnitPrice" />
+
+    <label asp-for="CategoryId"/>
+    <select asp-for="CategoryId" asp-items="Model.Categories"></select>
+
+    <label asp-for="SupplierId"/>
+    <select asp-for="SupplierId" asp-items="Model.Suppliers"></select>
+
+    <button type="submit">Create</button>
+</form>

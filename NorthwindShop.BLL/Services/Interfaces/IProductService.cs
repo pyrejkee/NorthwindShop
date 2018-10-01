@@ -8,7 +8,7 @@ namespace NorthwindShop.BLL.Services.Interfaces
 {
     public interface IProductService
     {
-        void Add(Product product);
+        void Add(ProductDTO product);
         ProductDTO GetById(int id);
         List<ProductDTO> Get();
         List<ProductDTO> Get(Func<Product, bool> predicate);

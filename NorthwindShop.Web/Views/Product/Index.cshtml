@@ -29,7 +29,11 @@
                 <td>@product.UnitsOnOrder</td>
                 <td>@product.CategoryName</td>
                 <td>@product.SupplierName</td>
+                <td><a asp-action="Details" asp-controller="Product">More</a></td>
+                <td><a asp-action="Edit" asp-controller="Product">Edit</a></td>
             </tr>
         }
     </tbody>
 </table>
+
+<a asp-action="Create" asp-controller="Product">Add New Product</a>

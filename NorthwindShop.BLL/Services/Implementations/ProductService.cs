@@ -37,9 +37,10 @@ namespace NorthwindShop.BLL.Services.Implementations
             return products;
         }
 
-        public void Add(Product product)
+        public void Add(ProductDTO product)
         {
-            _repository.Add(product);
+            var productToRepository = _mapper.Map<Product>(product);
+            _repository.Add(productToRepository);
         }
 
         public ProductDTO GetById(int id)

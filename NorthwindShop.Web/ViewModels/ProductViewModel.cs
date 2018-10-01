@@ -1,6 +1,4 @@
-﻿using NorthwindShop.BLL.EntitiesDTO;
-
-namespace NorthwindShop.Web.ViewModels
+﻿namespace NorthwindShop.Web.ViewModels
 {
     public class ProductViewModel
     {

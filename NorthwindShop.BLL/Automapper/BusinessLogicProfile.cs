@@ -16,8 +16,11 @@ namespace NorthwindShop.BLL.Automapper
                 .ForMember(dest => dest.UnitsInStock, opt => opt.MapFrom(src => src.UnitsInStock))
                 .ForMember(dest => dest.UnitsOnOrder, opt => opt.MapFrom(src => src.UnitsOnOrder))
                 .ForMember(dest => dest.Discontinued, opt => opt.MapFrom(src => src.Discontinued))
+                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
+                .ForMember(dest => dest.SupplierId, opt => opt.MapFrom(src => src.SupplierId))
                 .ForMember(dest => dest.Supplier, opt => opt.MapFrom(src => src.Supplier))
+                .ReverseMap()
                 .ForAllOtherMembers(opt => opt.Ignore());
 
             CreateMap<Category, CategoryDTO>()

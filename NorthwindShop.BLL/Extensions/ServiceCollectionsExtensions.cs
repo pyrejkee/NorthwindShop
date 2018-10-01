@@ -13,6 +13,8 @@ namespace NorthwindShop.BLL.Extensions
         {
             services.RegisterRepositories(configuration);
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ISupplierService, SupplierService>();
             services.AddAutoMapper();
 
             return services;
