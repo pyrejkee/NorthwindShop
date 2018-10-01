@@ -1,2 +1,8 @@
-﻿<h1>Welcome Page</h1>
-<a asp-controller="Product" asp-action="Index">Products</a>
+﻿@{
+    ViewBag.Title = "Welcome Page";
+}
+
+<h1>Welcome Page</h1>
+<div>
+    <a class="btn btn-primary" asp-controller="Product" asp-action="Index">Products</a>
+</div>

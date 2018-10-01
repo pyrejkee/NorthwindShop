@@ -1,18 +1,10 @@
 ﻿@model List<NorthwindShop.Web.ViewModels.ProductViewModel>
 
 @{
-    ViewData["Title"] = "Products";
+    ViewBag.Title = "Products";
 }
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-    <link href="~/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-<div class="container">
-    <h1>Products</h1>
-
+<h1>Products</h1>
 <table>
     <thead>
     <tr>
@@ -43,7 +35,4 @@
     </tbody>
 </table>
 
-<a asp-action="Create" asp-controller="Product">Add New Product</a>
-</div>
-</body>
-</html>
+<a class="btn btn-primary" asp-action="Create" asp-controller="Product">Add New Product</a>
