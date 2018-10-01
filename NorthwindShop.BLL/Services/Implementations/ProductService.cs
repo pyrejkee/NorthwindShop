@@ -37,10 +37,13 @@ namespace NorthwindShop.BLL.Services.Implementations
             return products;
         }
 
-        public void Add(ProductDTO product)
+        public ProductDTO Add(ProductDTO product)
         {
             var productToRepository = _mapper.Map<Product>(product);
-            _repository.Add(productToRepository);
+            var addedProduct = _repository.Add(productToRepository);
+            var productDTO = _mapper.Map<ProductDTO>(addedProduct);
+
+            return productDTO;
         }
 
         public ProductDTO GetById(int id)
@@ -65,10 +68,13 @@ namespace NorthwindShop.BLL.Services.Implementations
             return products;
         }
 
-        public void Update(ProductDTO product)
+        public ProductDTO Update(ProductDTO product)
         {
             var productToRepo = _mapper.Map<Product>(product);
-            _repository.Update(productToRepo);
+            var updatedProduct = _repository.Update(productToRepo);
+            var productDto = _mapper.Map<ProductDTO>(updatedProduct);
+
+            return productDto;
         }
 
         public void Remove(ProductDTO product)

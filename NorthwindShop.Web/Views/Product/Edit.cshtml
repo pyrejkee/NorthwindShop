@@ -1,0 +1,21 @@
+﻿@model EditProductViewModel
+
+<h1>Edit Product</h1>
+
+<form asp-controller="Product" asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id"/>
+
+    <label asp-for="Name"></label>
+    <input type="text" asp-for="Name"/>
+
+    <label asp-for="UnitPrice"></label>
+    <input type="number" min="0" step="1" asp-for="UnitPrice"/>
+
+    <label asp-for="CategoryId"></label>
+    <select asp-for="CategoryId" asp-items="Model.Categories"></select>
+
+    <label asp-for="SupplierId"></label>
+    <select asp-for="SupplierId" asp-items="Model.Suppliers"></select>
+
+    <button type="submit">Edit</button>
+</form>

@@ -1,0 +1,28 @@
+﻿@model ProductViewModel
+
+<h1>@Model.Name</h1>
+<div>
+    <span>Quantity per Unit: </span> @Model.QuantityPerUnit
+</div>
+<div>
+    <span>Unit Price: </span> @Model.UnitPrice
+</div>
+<div>
+    <span>Discontinued: </span> @if (Model.Discontinued)
+                                {
+                                    <span>Yes</span>
+                                }
+                                else
+                                {
+                                    <span>No</span>
+                                }
+</div>
+<div>
+    <span>Category: </span> @Model.CategoryName
+</div>
+<div>
+    <span>Supplier: </span> @Model.SupplierName
+</div>
+<div>
+    <a asp-action="Index" asp-controller="Product">To All Products</a>
+</div>

@@ -4,7 +4,14 @@
     ViewData["Title"] = "Products";
 }
 
-<h1>Products</h1>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="~/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <h1>Products</h1>
 
 <table>
     <thead>
@@ -19,21 +26,24 @@
     </tr>
     </thead>
     <tbody>
-        @foreach (var product in Model)
-        {
-            <tr>
-                <td>@product.Name</td>
-                <td>@product.QuantityPerUnit</td>
-                <td>@product.UnitPrice</td>
-                <td>@product.UnitsInStock</td>
-                <td>@product.UnitsOnOrder</td>
-                <td>@product.CategoryName</td>
-                <td>@product.SupplierName</td>
-                <td><a asp-action="Details" asp-controller="Product">More</a></td>
-                <td><a asp-action="Edit" asp-controller="Product">Edit</a></td>
-            </tr>
-        }
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.QuantityPerUnit</td>
+            <td>@product.UnitPrice</td>
+            <td>@product.UnitsInStock</td>
+            <td>@product.UnitsOnOrder</td>
+            <td>@product.CategoryName</td>
+            <td>@product.SupplierName</td>
+            <td><a asp-action="Details" asp-controller="Product" asp-route-id="@product.Id">More</a></td>
+            <td><a asp-action="Edit" asp-controller="Product" asp-route-id="@product.Id">Edit</a></td>
+        </tr>
+    }
     </tbody>
 </table>
 
 <a asp-action="Create" asp-controller="Product">Add New Product</a>
+</div>
+</body>
+</html>

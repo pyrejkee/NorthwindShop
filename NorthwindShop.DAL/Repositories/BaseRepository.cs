@@ -18,10 +18,11 @@ namespace NorthwindShop.DAL.Repositories
             _dbSet = _northwindDbContext.Set<T>();
         }
 
-        public void Add(T entity)
+        public T Add(T entity)
         {
             _dbSet.Add(entity);
             _northwindDbContext.SaveChanges();
+            return entity;
         }
 
         public T GetById(int id)
@@ -50,10 +51,12 @@ namespace NorthwindShop.DAL.Repositories
             return query.Where(predicate);
         }
 
-        public void Update(T entity)
+        public T Update(T entity)
         {
             _northwindDbContext.Entry(entity).State = EntityState.Modified;
             _northwindDbContext.SaveChanges();
+
+            return entity;
         }
 
         public void Remove(T entity)

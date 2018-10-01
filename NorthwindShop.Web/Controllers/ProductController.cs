@@ -62,11 +62,71 @@ namespace NorthwindShop.Web.Controllers
             if(ModelState.IsValid)
             {
                 var product = _mapper.Map<ProductDTO>(model);
-                _productService.Add(product);
-                return RedirectToAction("Index", "Product");
+                var addedProduct = _productService.Add(product);
+                var productViewModel = _mapper.Map<ProductViewModel>(addedProduct);
+
+                return RedirectToAction(nameof(Details), new { id = productViewModel.Id });
             }
 
-            return RedirectToAction("Create", "Product");
+            return View();
+        }
+
+        public IActionResult Details(int id)
+        {
+            var product = _productService.GetWithInclude(x => x.ProductId == id, c => c.Category,
+                s => s.Supplier).FirstOrDefault();
+            if (product == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            var productViewModel = _mapper.Map<ProductViewModel>(product);
+
+            return View(productViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var product = _productService.GetWithInclude(x => x.ProductId == id, c => c.Category, s => s.Supplier)
+                .FirstOrDefault();
+            if (product == null)
+            {
+                RedirectToAction(nameof(Index));
+            }
+
+            var categoriesDtos = _categoryService.Get();
+            var categories = _mapper.Map<List<CategoryForProductViewModel>>(categoriesDtos);
+            var suppliersDtos = _supplierService.Get();
+            var suppliers = _mapper.Map<List<SupplierForProductViewModel>>(suppliersDtos);
+            var productViewModel = _mapper.Map<EditProductViewModel>(product);
+            productViewModel.Categories = new SelectList(categories, "Id", "Name");
+            productViewModel.Suppliers = new SelectList(suppliers, "Id", "Name");
+
+            return View(productViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditProductViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var product = _productService.Get(x => x.ProductId == model.Id).FirstOrDefault();
+                if (product == null)
+                {
+                    return BadRequest();
+                }
+
+                product.Name = model.Name;
+                product.UnitPrice = model.UnitPrice;
+                product.CategoryId = model.CategoryId;
+                product.SupplierId = model.SupplierId;
+
+                _productService.Update(product);
+
+                return RedirectToAction(nameof(Details), new { id = product.Id });
+            }
+
+            return View();
         }
     }
 }
