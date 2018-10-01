@@ -25,6 +25,9 @@ msbuild.wrn
 # Visual Studio Code
 .vscode
 
+# Node modules
+[Nn]ode_modules/
+
 # Build stuff
 packages/
 artifacts/
