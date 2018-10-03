@@ -32,6 +32,7 @@ namespace NorthwindShop.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
             app.UseNodeModules(env.ContentRootPath);
 
             app.UseMvc(ConfigureRoutes);
