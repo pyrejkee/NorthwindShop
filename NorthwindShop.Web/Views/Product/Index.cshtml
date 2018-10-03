@@ -4,39 +4,44 @@
     ViewBag.Title = "Products";
 }
 
-<h1 class="text-center mb-3">Products</h1>
-<div class="row justify-content-center mb-3">
-    <a class="btn btn-primary" asp-action="Create" asp-controller="Product">Add New Product</a>
-</div>
-<div class="row"> 
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Quantity Per Unit</th>
-                <th scope="col">Unit Price</th>
-                <th scope="col">Units In Stock</th>
-                <th scope="col">Units On Order</th>
-                <th scope="col">Category Name</th>
-                <th scope="col">Supplier Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in Model)
-            {
+<div id="products-container">
+    <h1 class="text-center mb-3">Products</h1>
+    <div class="row justify-content-center mb-3">
+        <a class="btn btn-primary" asp-action="Create" asp-controller="Product">Add New Product</a>
+    </div>
+    <div class="row">
+        <table class="table table-hover table-responsive">
+            <thead>
                 <tr>
-                    <th scope="row">@Model.IndexOf(product)</th>
-                    <td>@product.Name</td>
-                    <td>@product.QuantityPerUnit</td>
-                    <td>@product.UnitPrice</td>
-                    <td>@product.UnitsInStock</td>
-                    <td>@product.UnitsOnOrder</td>
-                    <td>@product.CategoryName</td>
-                    <td>@product.SupplierName</td>
-                    <td></td>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Quantity Per Unit</th>
+                    <th scope="col">Unit Price</th>
+                    <th scope="col">Units In Stock</th>
+                    <th scope="col">Units On Order</th>
+                    <th scope="col">Category Name</th>
+                    <th scope="col">Supplier Name</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <th scope="row">@Model.IndexOf(product)</th>
+                        <td>
+                            <a asp-action="Edit" asp-controller="Product" asp-route-id="@product.Id"><i class="fa fa-pencil"></i></a>
+                            <a asp-action="Details" asp-controller="Product" asp-route-id="@product.Id">@product.Name</a>
+                        </td>
+                        <td>@product.QuantityPerUnit</td>
+                        <td>@product.UnitPrice</td>
+                        <td>@product.UnitsInStock</td>
+                        <td>@product.UnitsOnOrder</td>
+                        <td>@product.CategoryName</td>
+                        <td>@product.SupplierName</td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

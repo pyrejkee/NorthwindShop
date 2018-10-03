@@ -1,0 +1,12 @@
+﻿#products-container a {
+    color: black;
+}
+
+#products-container a:hover {
+    text-decoration: none;
+    color: blueviolet;
+}
+
+#products-container i {
+    padding-right: 5px;
+}
