@@ -8,13 +8,15 @@ namespace NorthwindShop.Web.ViewModels
         [Required]
         [MaxLength(40)]
         public string Name { get; set; }
+
         public decimal UnitPrice { get; set; }
-        [Required]
+        
         public int CategoryId { get; set; }
-        [Required]
+        
         public int SupplierId { get; set; }
 
         public SelectList Categories { get; set; }
+
         public SelectList Suppliers { get; set; }
     }
 }

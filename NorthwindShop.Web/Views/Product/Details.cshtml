@@ -1,28 +1,59 @@
 ﻿@model ProductViewModel
 
-<h1>@Model.Name</h1>
-<div>
-    <span>Quantity per Unit: </span> @Model.QuantityPerUnit
+<div class="row justify-content-center mb-3">
+    <h1>@Model.Name</h1>
 </div>
-<div>
-    <span>Unit Price: </span> @Model.UnitPrice
-</div>
-<div>
-    <span>Discontinued: </span> @if (Model.Discontinued)
-                                {
-                                    <span>Yes</span>
-                                }
-                                else
-                                {
-                                    <span>No</span>
-                                }
-</div>
-<div>
-    <span>Category: </span> @Model.CategoryName
-</div>
-<div>
-    <span>Supplier: </span> @Model.SupplierName
-</div>
-<div>
-    <a asp-action="Index" asp-controller="Product">To All Products</a>
+<div class="row justify-content-center mb-3">
+    <div>
+        <div class="row justify-content-center">
+            <div class="col-sm-6">
+                <span>Quantity per Unit:</span>
+            </div>
+            <div class="col-sm-6">
+                <span>@Model.QuantityPerUnit</span>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-6">
+                <span>Unit Price:</span>
+            </div>
+            <div class="col-sm-6">
+                <span>@Model.UnitPrice</span>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-6">
+                <span>Discontinued: </span>
+            </div>
+            <div class="col-sm-6">
+                @if (Model.Discontinued)
+                {
+                    <span>Yes</span>
+                }
+                else
+                {
+                    <span>No</span>
+                }
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-6">
+                <span>Category: </span>
+            </div>
+            <div class="col-sm-6">
+                <span>@Model.CategoryName</span>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-6">
+                <span>Supplier: </span>
+            </div>
+            <div class="col-sm-6">
+                @Model.SupplierName
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <a class="btn btn-primary" asp-action="Index" asp-controller="Product">To All Products</a>
+        </div>
+    </div>
 </div>

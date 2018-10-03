@@ -68,7 +68,7 @@ namespace NorthwindShop.Web.Controllers
                 return RedirectToAction(nameof(Details), new { id = productViewModel.Id });
             }
 
-            return View();
+            return RedirectToAction(nameof(Create));
         }
 
         public IActionResult Details(int id)

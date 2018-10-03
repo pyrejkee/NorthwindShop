@@ -1,21 +1,50 @@
 ﻿@model EditProductViewModel
 
-<h1>Edit Product</h1>
 
-<form asp-controller="Product" asp-action="Edit" method="post">
-    <input type="hidden" asp-for="Id"/>
+<div class="row justify-content-center mb-3">
+    <h1>Edit Product</h1>
+</div>
 
-    <label asp-for="Name"></label>
-    <input type="text" asp-for="Name"/>
+<div class="row justify-content-center mb-3">
+    <form asp-controller="Product" asp-action="Edit" method="post">
+        <div class="form-group row">
+            <input type="hidden" asp-for="Id" />
 
-    <label asp-for="UnitPrice"></label>
-    <input type="number" min="0" step="1" asp-for="UnitPrice"/>
+            <div class="col-sm-4 col-form-label">
+                <label asp-for="Name">Name</label>
+            </div>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" asp-for="Name" />
+            </div>
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
 
-    <label asp-for="CategoryId"></label>
-    <select asp-for="CategoryId" asp-items="Model.Categories"></select>
+        <div class="form-group row">
+            <div class="col-sm-4 col-form-label">
+                <label asp-for="UnitPrice">Unit Price</label>
+            </div>
+            <div class="col-sm-8">
+                <input class="form-control" type="number" min="0" asp-for="UnitPrice" />
+            </div>
+            <span class="text-danger" asp-validation-for="UnitPrice"></span>
+        </div>
 
-    <label asp-for="SupplierId"></label>
-    <select asp-for="SupplierId" asp-items="Model.Suppliers"></select>
+        <div class="form-group row">
+            <div class="col-sm-2 col-form-label">
+                <label asp-for="CategoryId">Category</label>
+            </div>
+            <div class="col-sm-4">
+                <select class="form-control" asp-for="CategoryId" asp-items="Model.Categories"></select>
+            </div>
 
-    <button type="submit">Edit</button>
-</form>
+            <div class="col-sm-2 col-form-label">
+                <label asp-for="SupplierId">Supplier</label>
+            </div>
+            <div class="col-sm-4">
+                <select class="form-control" asp-for="SupplierId" asp-items="Model.Suppliers"></select>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Edit</button>
+    </form>
+</div>
