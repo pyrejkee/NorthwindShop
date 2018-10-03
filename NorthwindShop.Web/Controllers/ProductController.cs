@@ -2,8 +2,10 @@
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using NorthwindShop.BLL.EntitiesDTO;
 using NorthwindShop.BLL.Services.Interfaces;
 using NorthwindShop.Web.ViewModels;
@@ -17,23 +19,29 @@ namespace NorthwindShop.Web.Controllers
         private readonly ISupplierService _supplierService;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<ProductController> _logger;
 
         public ProductController(IProductService productService,
                                  ICategoryService categoryService,
                                  ISupplierService supplierService,
                                  IMapper mapper,
-                                 IConfiguration configuration)
+                                 IConfiguration configuration,
+                                 ILogger<ProductController> logger)
         {
             _productService = productService;
             _categoryService = categoryService;
             _supplierService = supplierService;
             _mapper = mapper;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public IActionResult Index()
         {
+            _logger.LogTrace("Reading > MaximumProductsCount < from configuration");
             var maximumProductsCountToDisplay = _configuration.GetValue<int>("ProductPageSettings:MaximumProductsCount", 0);
+            _logger.LogTrace($"> MaximumProductsCount < has been read. Value: { maximumProductsCountToDisplay }");
+
             var productsDtos = maximumProductsCountToDisplay > 0 ?
                 _productService.GetWithInclude(c => c.Category, s => s.Supplier).Take(maximumProductsCountToDisplay) :
                 _productService.GetWithInclude(c => c.Category, s => s.Supplier);

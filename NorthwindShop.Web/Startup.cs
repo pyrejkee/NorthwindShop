@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NorthwindShop.BLL.Extensions;
 
 namespace NorthwindShop.Web
@@ -10,10 +11,13 @@ namespace NorthwindShop.Web
     public class Startup
     {
         private readonly IConfiguration _configuration;
+        private readonly ILogger<Startup> _logger;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration,
+                       ILogger<Startup> logger)
         {
             _configuration = configuration;
+            _logger = logger;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -25,8 +29,12 @@ namespace NorthwindShop.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app,
+                              IHostingEnvironment env,
+                              IApplicationLifetime applicationLifetime)
         {
+            applicationLifetime.ApplicationStopping.Register(OnShutDown);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -42,6 +50,11 @@ namespace NorthwindShop.Web
         {
             routeBuilder.MapRoute("Default",
                 "{controller=Home}/{action=Index}/{id?}");
+        }
+
+        private void OnShutDown()
+        {
+            _logger.LogDebug("Application has been stoped.");
         }
     }
 }
