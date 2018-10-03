@@ -40,6 +40,12 @@ namespace NorthwindShop.Web.Automapper
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForAllOtherMembers(opt => opt.Ignore());
 
+            CreateMap<CategoryDTO, CategoryViewModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForAllOtherMembers(opt => opt.Ignore());
+
             CreateMap<SupplierDTO, SupplierForProductViewModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CompanyName))
