@@ -39,6 +39,11 @@ namespace NorthwindShop.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Error/500");
+                app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
+            }
 
             app.UseStaticFiles();
             app.UseNodeModules(env.ContentRootPath);
