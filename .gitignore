@@ -25,6 +25,12 @@ msbuild.wrn
 # Visual Studio Code
 .vscode
 
+# Node modules
+[Nn]ode_modules/
+
+# NLog config
+nlog.config
+
 # Build stuff
 packages/
 artifacts/
