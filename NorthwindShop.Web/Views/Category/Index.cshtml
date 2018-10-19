@@ -1,20 +1,19 @@
 ﻿@model List<CategoryViewModel>
 
 <div id="categories-container">
-    <div class="row justify-content-center mb-3">
+    <div class="text-center">
         <h1>Categories</h1>
     </div>
-    @foreach (var category in Model)
-    {
-        <div class="row m-3">
-            <div class="col">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">@category.Name</h5>
-                        <p class="card-text">@category.Description</p>
-                    </div>
-                </div>
+    <div div class="row">
+        @foreach (var category in Model)
+        {
+        <div class="card w-25">
+            <img class="card-img-top" src="@Url.Action("Image", "Category", new { id = category.Id })" alt="@category.Name">
+            <div class="card-body">
+                <h5 class="card-title">@category.Name</h5>
+                <p class="card-text">@category.Description</p>
             </div>
         </div>
-    }
-</div>
+        }
+        </div>
+    </div>
