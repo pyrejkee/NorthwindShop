@@ -53,6 +53,9 @@ namespace NorthwindShop.Web
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)
         {
+            routeBuilder.MapRoute("Image", "images/{id:int}",
+                defaults: new {controller = "Category", action = "Image"});
+
             routeBuilder.MapRoute("Default",
                 "{controller=Home}/{action=Index}/{id?}");
         }
