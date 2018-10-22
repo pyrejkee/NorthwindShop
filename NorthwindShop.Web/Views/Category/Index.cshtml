@@ -4,16 +4,21 @@
     <div class="text-center">
         <h1>Categories</h1>
     </div>
-    <div div class="row">
-        @foreach (var category in Model)
-        {
-        <div class="card w-25">
-            <img class="card-img-top" src="@Url.Action("Image", "Category", new { id = category.Id })" alt="@category.Name">
-            <div class="card-body">
-                <h5 class="card-title">@category.Name</h5>
-                <p class="card-text">@category.Description</p>
+    @foreach (var category in Model)
+    {
+        <div class="row m-3">
+            <div class="col">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">@category.Name</h5>
+                        <p class="card-text">@category.Description</p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary" asp-action="EditCategory" asp-controller="Category" asp-route-id="@category.Id">Edit category</a>
+                        <a class="btn btn-primary" asp-action="Image" asp-controller="Category" asp-route-id="@category.Id">Image</a>
+                    </div>
+                </div>
             </div>
         </div>
-        }
-        </div>
-    </div>
+    }
+</div>

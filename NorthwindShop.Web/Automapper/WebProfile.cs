@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.IO;
+using AutoMapper;
 using NorthwindShop.BLL.EntitiesDTO;
 using NorthwindShop.Web.ViewModels;
 
@@ -44,8 +45,28 @@ namespace NorthwindShop.Web.Automapper
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Picture))
                 .ForAllOtherMembers(opt => opt.Ignore());
+
+            CreateMap<EditCategoryViewModel, CategoryDTO>()
+                .ConstructUsing(source =>
+                {
+                    var categoryDto = new CategoryDTO
+                    {
+                        Id = source.Id,
+                        Name = source.Name,
+                        Description = source.Description
+                    };
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        source.Image.CopyTo(memoryStream);
+
+                        categoryDto.Picture = memoryStream.ToArray();
+                    }
+
+                    return categoryDto;
+                })
+                .ReverseMap();
 
             CreateMap<SupplierDTO, SupplierForProductViewModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))

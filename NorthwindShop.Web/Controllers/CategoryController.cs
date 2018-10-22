@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Xml.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using NorthwindShop.BLL.EntitiesDTO;
 using NorthwindShop.BLL.Services.Interfaces;
 using NorthwindShop.Web.ViewModels;
 
@@ -34,15 +33,42 @@ namespace NorthwindShop.Web.Controllers
         {
             var category = _categoryService.GetById(id);
 
-            if(category == null)
+            if(category?.Picture.Length == 0)
             {
                 return NotFound();
             }
 
-            byte[] correctImageStream = new byte[category.Picture.Length - 78];
-            Buffer.BlockCopy(category.Picture, 78, correctImageStream, 0, category.Picture.Length - 78);
+            return File(category.Picture, "image/jpg");
+        }
 
-            return File(correctImageStream, "image/bmp");
+        [HttpGet]
+        public IActionResult EditCategory(int id)
+        {
+            var category = _categoryService.GetById(id);
+            if (category == null)
+            {
+                RedirectToAction(nameof(Index));
+            }
+
+            var categoryViewModel = _mapper.Map<EditCategoryViewModel>(category);
+
+            return View(categoryViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCategory(EditCategoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var categoryDto = _mapper.Map<CategoryDTO>(model);
+
+                _categoryService.Update(categoryDto);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
         }
     }
 }
