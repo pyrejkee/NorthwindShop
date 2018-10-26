@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NorthwindShop.BLL.Extensions;
+using NorthwindShop.Web.Middlware;
 
 namespace NorthwindShop.Web
 {
@@ -24,6 +25,11 @@ namespace NorthwindShop.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = "localhost";
+                options.InstanceName = "NorthwindCacheStorage";
+            });
             services.RegisterBllServices(_configuration);
             services.AddMvc();
         }
@@ -45,6 +51,7 @@ namespace NorthwindShop.Web
                 app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
             }
 
+            app.UseMiddleware<CacheImageMiddlware>();
             app.UseStaticFiles();
             app.UseNodeModules(env.ContentRootPath);
 

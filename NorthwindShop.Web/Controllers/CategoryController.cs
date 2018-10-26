@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using NorthwindShop.BLL.EntitiesDTO;
 using NorthwindShop.BLL.Services.Interfaces;
 using NorthwindShop.Web.ViewModels;
@@ -13,12 +12,15 @@ namespace NorthwindShop.Web.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
+        private readonly IDistributedCache _cache;
 
         public CategoryController(ICategoryService categoryService,
-                                  IMapper mapper)
+                                  IMapper mapper,
+                                  IDistributedCache cache)
         {
             _categoryService = categoryService;
             _mapper = mapper;
+            _cache = cache;
         }
 
         public IActionResult Index()
@@ -31,13 +33,19 @@ namespace NorthwindShop.Web.Controllers
 
         public IActionResult Image(int id)
         {
+            var cachedImage = _cache.Get($"categoryId-{id}");
+            if (cachedImage != null)
+            {
+                return File(cachedImage, "image/jpg");
+            }
+
             var category = _categoryService.GetById(id);
 
             if(category?.Picture.Length == 0)
             {
                 return NotFound();
             }
-
+            
             return File(category.Picture, "image/jpg");
         }
 
@@ -47,7 +55,7 @@ namespace NorthwindShop.Web.Controllers
             var category = _categoryService.GetById(id);
             if (category == null)
             {
-                RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
 
             var categoryViewModel = _mapper.Map<EditCategoryViewModel>(category);
