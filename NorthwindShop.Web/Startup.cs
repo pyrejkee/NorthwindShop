@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NorthwindShop.BLL.Extensions;
+using NorthwindShop.Web.Filters;
 using NorthwindShop.Web.Middlware;
 
 namespace NorthwindShop.Web
@@ -31,7 +32,14 @@ namespace NorthwindShop.Web
                 options.InstanceName = "NorthwindCacheStorage";
             });
             services.RegisterBllServices(_configuration);
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                var logActionsEnabled = _configuration.GetValue<bool>("Logging:LogActionsEnabled", false);
+                if (logActionsEnabled)
+                {
+                    options.Filters.Add(new LogActionFilter(_logger));
+                }
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
