@@ -4,7 +4,7 @@ using NorthwindShop.DAL.Entities;
 
 namespace NorthwindShop.BLL.Automapper
 {
-    class BusinessLogicProfile : Profile
+    public class BusinessLogicProfile : Profile
     {
         public BusinessLogicProfile()
         {
@@ -28,6 +28,7 @@ namespace NorthwindShop.BLL.Automapper
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CategoryName))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Picture, opt => opt.MapFrom(src => src.Picture))
+                .ReverseMap()
                 .ForAllOtherMembers(opt => opt.Ignore());
 
             CreateMap<Supplier, SupplierDTO>()

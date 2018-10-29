@@ -1,7 +1,7 @@
 ﻿@model List<CategoryViewModel>
 
 <div id="categories-container">
-    <div class="row justify-content-center mb-3">
+    <div class="text-center">
         <h1>Categories</h1>
     </div>
     @foreach (var category in Model)
@@ -12,6 +12,10 @@
                     <div class="card-body">
                         <h5 class="card-title">@category.Name</h5>
                         <p class="card-text">@category.Description</p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary" asp-action="EditCategory" asp-controller="Category" asp-route-id="@category.Id">Edit category</a>
+                        <a class="btn btn-primary" asp-action="Image" asp-controller="Category" asp-route-id="@category.Id">Image</a>
                     </div>
                 </div>
             </div>

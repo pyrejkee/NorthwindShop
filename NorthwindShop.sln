@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthwindShop.Web", "Northw
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthwindShop.BLL", "NorthwindShop.BLL\NorthwindShop.BLL.csproj", "{76603B2E-FF5A-4BD0-B952-0B4CC8C566B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindShop.DAL", "NorthwindShop.DAL\NorthwindShop.DAL.csproj", "{B89A19DC-6E8C-4826-90C5-181142E5DA4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthwindShop.DAL", "NorthwindShop.DAL\NorthwindShop.DAL.csproj", "{B89A19DC-6E8C-4826-90C5-181142E5DA4A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E72E04BA-9562-4480-8607-34FE80F97786}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControllerTests", "ControllerTests\ControllerTests.csproj", "{951B2F7F-9B37-4724-956F-EDE54B04A0C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +31,16 @@ Global
 		{B89A19DC-6E8C-4826-90C5-181142E5DA4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B89A19DC-6E8C-4826-90C5-181142E5DA4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B89A19DC-6E8C-4826-90C5-181142E5DA4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{951B2F7F-9B37-4724-956F-EDE54B04A0C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{951B2F7F-9B37-4724-956F-EDE54B04A0C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{951B2F7F-9B37-4724-956F-EDE54B04A0C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{951B2F7F-9B37-4724-956F-EDE54B04A0C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{951B2F7F-9B37-4724-956F-EDE54B04A0C6} = {E72E04BA-9562-4480-8607-34FE80F97786}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E511DAE5-3719-4497-BF6A-B812C7E85E68}

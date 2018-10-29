@@ -14,7 +14,7 @@ namespace NorthwindShop.BLL.Services.Interfaces
         List<CategoryDTO> Get(Func<Category, bool> predicate);
         List<CategoryDTO> GetWithInclude(params Expression<Func<Category, object>>[] includeProperties);
         List<CategoryDTO> GetWithInclude(Func<Category, bool> predicate, params Expression<Func<Category, object>>[] includeProperties);
-        void Update(CategoryDTO category);
+        CategoryDTO Update(CategoryDTO category);
         void Remove(CategoryDTO category);
     }
 }
