@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace NorthwindShop.BLL.Services.Implementations
 {
-    internal sealed class CategoryService : ICategoryService
+    public sealed class CategoryService : ICategoryService
     {
         private readonly IRepository<Category> _repository;
         private readonly IMapper _mapper;
@@ -65,10 +65,13 @@ namespace NorthwindShop.BLL.Services.Implementations
             return categories;
         }
 
-        public void Update(CategoryDTO category)
+        public CategoryDTO Update(CategoryDTO category)
         {
             var categoryToRepo = _mapper.Map<Category>(category);
-            _repository.Update(categoryToRepo);
+            var updatedCategory = _repository.Update(categoryToRepo);
+            var updatedCategoryDto = _mapper.Map<CategoryDTO>(updatedCategory);
+
+            return updatedCategoryDto;
         }
 
         public void Remove(CategoryDTO category)

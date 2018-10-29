@@ -4,7 +4,7 @@ using NorthwindShop.DAL.Entities;
 
 namespace NorthwindShop.BLL.Automapper
 {
-    class BusinessLogicProfile : Profile
+    public class BusinessLogicProfile : Profile
     {
         public BusinessLogicProfile()
         {

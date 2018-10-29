@@ -67,16 +67,16 @@ namespace NorthwindShop.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditCategory(EditCategoryViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var categoryDto = _mapper.Map<CategoryDTO>(model);
-
-                _categoryService.Update(categoryDto);
-
-                return RedirectToAction(nameof(Index));
+                return BadRequest(ModelState);
             }
 
-            return View(model);
+            var categoryDto = _mapper.Map<CategoryDTO>(model);
+
+            var updatedCategory = _categoryService.Update(categoryDto);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
