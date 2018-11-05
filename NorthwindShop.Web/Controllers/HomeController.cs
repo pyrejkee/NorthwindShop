@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NorthwindShop.BLL.Services.Interfaces;
+using NorthwindShop.Web.ViewModels;
 
 namespace NorthwindShop.Web.Controllers
 {
@@ -9,17 +13,23 @@ namespace NorthwindShop.Web.Controllers
     {
         private readonly IProductService _productService;
         private readonly ILogger<HomeController> _logger;
+        private readonly IMapper _mapper;
 
         public HomeController(IProductService productService,
-                              ILogger<HomeController> logger)
+                              ILogger<HomeController> logger,
+                              IMapper mapper)
         {
             _productService = productService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var productDtos = _productService.GetWithInclude(c => c.Category, s => s.Supplier).Take(3);
+            var productsViewModel = _mapper.Map<List<ProductViewModel>>(productDtos);
+
+            return View(productsViewModel);
         }
 
         [Route("Error/500")]

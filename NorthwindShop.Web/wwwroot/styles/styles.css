@@ -11,14 +11,24 @@
     padding-right: 5px;
 }
 
-.fixed-bottom {
+.pricing-header {
+    max-width: 700px;
+}
+
+.sidebar {
     position: fixed;
-    right: 0;
+    top: 0;
     bottom: 0;
     left: 0;
-    z-index: 1030;
-    background-color: #f8f9fa;
-    height: 50px;
-    line-height: 50px;
-    padding: 0 20px;
+    z-index: 100;
+    padding: 48px 0 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+.home-sidebar a {
+    color: black;
+}
+
+.home-sidebar a:hover {
+    color: blueviolet;
 }
