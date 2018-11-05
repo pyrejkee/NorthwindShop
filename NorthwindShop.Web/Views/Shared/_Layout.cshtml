@@ -10,25 +10,37 @@
     <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-        <a class="navbar-brand" asp-action="Index" asp-controller="Home">Northwind Shop</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+            <a class="navbar-brand" asp-action="Index" asp-controller="Home">Northwind Shop</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" asp-action="Index" asp-controller="Product">Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-action="Index" asp-controller="Category">Categories</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-controller="Product">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-controller="Category">Categories</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
     <div class="container">
         @RenderBody()
     </div>
+    <footer class="footer fixed-bottom">
+        @if (IsSectionDefined("Footer"))
+        {
+            RenderSection("Footer", false);
+        }
+        else
+        {
+            <p>&copy; @DateTime.Now.Year Northwind Shop<span class="pull-right">Contact Help Desk at 555-555-1342</span></p>
+        }
+    </footer>
 </body>
 </html>
