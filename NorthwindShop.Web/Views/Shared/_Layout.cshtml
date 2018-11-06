@@ -1,4 +1,6 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
+﻿@using NorthwindShop.Web.ViewComponents
+
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>@ViewBag.Title</title>
     <link href="~/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -20,9 +22,13 @@
         <partial name="_Navigation"/>
     }
 </header>
-    <div class="container mt-5">
-        @RenderBody()
-    </div>
+<div class="container mt-5">
+    @if (IsSectionDefined("BreadCrumb"))
+    {
+        RenderSection("BreadCrumb", false);
+    }
+    @RenderBody()
+</div>
     <footer class="container py-5">
         @if (IsSectionDefined("Footer"))
         {

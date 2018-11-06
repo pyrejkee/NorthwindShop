@@ -85,7 +85,7 @@ namespace ControllerTests
             var categoryId = 3;
 
             // Act
-            var result = controller.EditCategory(categoryId);
+            var result = controller.Edit(categoryId);
 
             // Assert
             var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
@@ -110,7 +110,7 @@ namespace ControllerTests
             
 
             // Act
-            var result = controller.EditCategory(categoryId);
+            var result = controller.Edit(categoryId);
 
             // Assert
             Assert.IsType<ViewResult>(result);
@@ -134,7 +134,7 @@ namespace ControllerTests
             controller.ModelState.AddModelError("SomeKey", "SomeError");
 
             // Act
-            var result = controller.EditCategory(It.IsAny<EditCategoryViewModel>());
+            var result = controller.Edit(It.IsAny<EditCategoryViewModel>());
 
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -181,7 +181,7 @@ namespace ControllerTests
             var controller = new CategoryController(categoryService, autoMapper, distributedCache.Object);
 
             // Act
-            var result = controller.EditCategory(newEditCategoryViewModel);
+            var result = controller.Edit(newEditCategoryViewModel);
 
             // Assert
             baseRepository.Verify(x => x.Update(It.IsAny<Category>()), Times.Once());
