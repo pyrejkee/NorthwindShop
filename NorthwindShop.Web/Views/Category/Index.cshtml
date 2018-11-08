@@ -1,5 +1,10 @@
 ﻿@model List<CategoryViewModel>
 
+@section BreadCrumb
+{
+    @await Component.InvokeAsync(typeof(BreadCrumb))
+}
+
 <div id="categories-container">
     <div class="text-center">
         <h1>Categories</h1>
@@ -14,11 +19,20 @@
                         <p class="card-text">@category.Description</p>
                     </div>
                     <div class="card-footer">
-                        <a class="btn btn-primary" asp-action="EditCategory" asp-controller="Category" asp-route-id="@category.Id">Edit category</a>
-                        <a class="btn btn-primary" asp-action="Image" asp-controller="Category" asp-route-id="@category.Id">Image</a>
+                        <a class="btn btn-primary" asp-action="Edit" asp-controller="Category" asp-route-id="@category.Id">Edit category</a>
+                        <a northwind-id="@category.Id">Image</a>
                     </div>
                 </div>
             </div>
         </div>
     }
 </div>
+
+@section Footer
+    {
+    <div class="alert alert-danger text-center" role="alert">
+        <p>
+            The ordinary user can't edit categories <cite>(Will be added later)</cite>
+        </p>
+    </div>
+}

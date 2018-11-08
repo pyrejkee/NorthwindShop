@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NorthwindShop.BLL.Services.Interfaces;
+using NorthwindShop.Web.Automapper;
 using NorthwindShop.Web.Controllers;
 using Xunit;
 
@@ -15,7 +17,12 @@ namespace ControllerTests
             // Arrange
             var productService = new Mock<IProductService>();
             var logger = new Mock<ILogger<HomeController>>();
-            var controller = new HomeController(productService.Object, logger.Object);
+            var configMapper = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new WebProfile());
+            });
+            var autoMapper = configMapper.CreateMapper();
+            var controller = new HomeController(productService.Object, logger.Object, autoMapper);
 
             // Act
             var result = controller.Index();

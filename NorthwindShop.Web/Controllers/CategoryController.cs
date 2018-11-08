@@ -50,7 +50,7 @@ namespace NorthwindShop.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditCategory(int id)
+        public IActionResult Edit(int id)
         {
             var category = _categoryService.GetById(id);
             if (category == null)
@@ -65,7 +65,7 @@ namespace NorthwindShop.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditCategory(EditCategoryViewModel model)
+        public IActionResult Edit(EditCategoryViewModel model)
         {
             if (!ModelState.IsValid)
             {
