@@ -9,6 +9,7 @@ using NorthwindShop.Web.Automapper;
 using NorthwindShop.Web.Controllers;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using NorthwindShop.DAL.Entities;
 using NorthwindShop.Web.ViewModels;
 using Xunit;
@@ -18,7 +19,7 @@ namespace ControllerTests
     public class ProductControllerTests
     {
         [Fact]
-        public void Index_WhenProductsExist_ShouldReturnViewResultWithListOfProductViewModel()
+        public async Task Index_WhenProductsExist_ShouldReturnViewResultWithListOfProductViewModel()
         {
             var productSevice = new Mock<IProductService>();
             var categoryService = new Mock<ICategoryService>();
@@ -31,18 +32,18 @@ namespace ControllerTests
             });
             var autoMapper = configMapper.CreateMapper();
 
-            productSevice.Setup(x => x.Get()).Returns(GetProductDtos());
+            productSevice.Setup(x => x.Get()).ReturnsAsync(GetProductDtos);
 
             var productController = new ProductController(productSevice.Object, categoryService.Object, supplierService.Object, autoMapper, configuration.Object, logger.Object);
 
             // Act
-            //var result = productController.Index();
+            var result = await productController.Index();
 
-            //Assert.IsType<ViewResult>(result);
+            Assert.IsType<ViewResult>(result);
         }
 
         [Fact]
-        public void Create_GET_WhenThereAreExistProducts_ShouldReturnThem()
+        public async Task Create_GET_WhenThereAreExistProducts_ShouldReturnThem()
         {
             var productSevice = new Mock<IProductService>();
             var categoryService = new Mock<ICategoryService>();
@@ -55,22 +56,22 @@ namespace ControllerTests
             });
             var autoMapper = configMapper.CreateMapper();
 
-            productSevice.Setup(x => x.Get()).Returns(GetProductDtos());
-            categoryService.Setup(x => x.Get()).Returns(GetCategoryDtos());
-            supplierService.Setup(x => x.Get()).Returns(GetSupplierDtos());
+            productSevice.Setup(x => x.Get()).ReturnsAsync(GetProductDtos());
+            categoryService.Setup(x => x.Get()).ReturnsAsync(GetCategoryDtos());
+            supplierService.Setup(x => x.Get()).ReturnsAsync(GetSupplierDtos());
 
             var productController = new ProductController(productSevice.Object, categoryService.Object, supplierService.Object, autoMapper, configuration.Object, logger.Object);
 
             // Act
-            var result = productController.Create();
+            var result = await productController.Create();
 
             // Assert
             Assert.IsType<ViewResult>(result);
-            Assert.IsAssignableFrom<CreateProductViewModel>(((ViewResult) result).ViewData.Model);
+            Assert.IsAssignableFrom<CreateProductViewModel>(((ViewResult)result).ViewData.Model);
         }
 
         [Fact]
-        public void Create_POST_WhenModelStateIsValid_ShouldRedirectToDetailsAction()
+        public async Task Create_POST_WhenModelStateIsValid_ShouldRedirectToDetailsAction()
         {
             var productSevice = new Mock<IProductService>();
             var categoryService = new Mock<ICategoryService>();
@@ -83,19 +84,19 @@ namespace ControllerTests
             });
             var autoMapper = configMapper.CreateMapper();
 
-            productSevice.Setup(x => x.Add(It.IsAny<ProductDTO>())).Returns(new ProductDTO());
+            productSevice.Setup(x => x.Add(It.IsAny<ProductDTO>())).ReturnsAsync(new ProductDTO());
 
             var productController = new ProductController(productSevice.Object, categoryService.Object, supplierService.Object, autoMapper, configuration.Object, logger.Object);
 
             // Act
-            var result = productController.Create(new CreateProductViewModel());
+            var result = await productController.Create(new CreateProductViewModel());
 
             // Assert
             Assert.IsType<RedirectToActionResult>(result);
         }
 
         [Fact]
-        public void Details_WhenSuchProductExists_ShouldReturnViewResultWithModel()
+        public async Task Details_WhenSuchProductExists_ShouldReturnViewResultWithModel()
         {
             var productSevice = new Mock<IProductService>();
             var categoryService = new Mock<ICategoryService>();
@@ -108,21 +109,21 @@ namespace ControllerTests
             });
             var autoMapper = configMapper.CreateMapper();
 
-            productSevice.Setup(x => x.GetWithInclude(It.IsAny<Func<Product, bool>>(), It.IsAny<Expression<Func<Product, object>>[]>()))
-                .Returns(new List<ProductDTO>{ new ProductDTO { Id = 1, Name = "Name 1" } });
+            productSevice.Setup(x => x.GetWithInclude(It.IsAny<Expression<Func<Product, bool>>>(), It.IsAny<Expression<Func<Product, object>>[]>()))
+                .ReturnsAsync(new List<ProductDTO>{ new ProductDTO { Id = 1, Name = "Name 1" } });
 
             var productController = new ProductController(productSevice.Object, categoryService.Object, supplierService.Object, autoMapper, configuration.Object, logger.Object);
 
             // Act
-            var result = productController.Details(1);
+            var result = await productController.Details(1);
 
             // Assert
             Assert.IsType<ViewResult>(result);
-            Assert.IsAssignableFrom<ProductViewModel>(((ViewResult) result).ViewData.Model);
+            Assert.IsAssignableFrom<ProductViewModel>(((ViewResult)result).ViewData.Model);
         }
 
         [Fact]
-        public void Edit_GET_WhenProductExists_ShouldReturnViewResultWithEditProductViewModel()
+        public async Task Edit_GET_WhenProductExists_ShouldReturnViewResultWithEditProductViewModel()
         {
             var productSevice = new Mock<IProductService>();
             var categoryService = new Mock<ICategoryService>();
@@ -135,15 +136,15 @@ namespace ControllerTests
             });
             var autoMapper = configMapper.CreateMapper();
 
-            productSevice.Setup(x => x.GetWithInclude(It.IsAny<Func<Product, bool>>(), It.IsAny<Expression<Func<Product, object>>[]>()))
-                .Returns(new List<ProductDTO> { new ProductDTO { Id = 1, Name = "Name 1" } });
-            categoryService.Setup(x => x.Get()).Returns(GetCategoryDtos());
-            supplierService.Setup(x => x.Get()).Returns(GetSupplierDtos());
+            productSevice.Setup(x => x.GetWithInclude(It.IsAny<Expression<Func<Product, bool>>>(), It.IsAny<Expression<Func<Product, object>>[]>()))
+                .ReturnsAsync(new List<ProductDTO> { new ProductDTO { Id = 1, Name = "Name 1" } });
+            categoryService.Setup(x => x.Get()).ReturnsAsync(GetCategoryDtos());
+            supplierService.Setup(x => x.Get()).ReturnsAsync(GetSupplierDtos());
 
             var productController = new ProductController(productSevice.Object, categoryService.Object, supplierService.Object, autoMapper, configuration.Object, logger.Object);
 
             // Act
-            var result = productController.Edit(1);
+            var result = await productController.Edit(1);
 
             // Assert
             Assert.IsType<ViewResult>(result);
@@ -151,7 +152,7 @@ namespace ControllerTests
         }
 
         [Fact]
-        public void Edit_POST_WhenModelStateIsValid_ShouldRedirectToDetailsAction()
+        public async Task Edit_POST_WhenModelStateIsValid_ShouldRedirectToDetailsAction()
         {
             var productSevice = new Mock<IProductService>();
             var categoryService = new Mock<ICategoryService>();
@@ -164,13 +165,13 @@ namespace ControllerTests
             });
             var autoMapper = configMapper.CreateMapper();
 
-            productSevice.Setup(x => x.Get(It.IsAny<Func<Product, bool>>()))
-                .Returns(new List<ProductDTO> { new ProductDTO { Id = 1, Name = "Name 1" } });
+            productSevice.Setup(x => x.Get(It.IsAny<Expression<Func<Product, bool>>>()))
+                .ReturnsAsync(new List<ProductDTO> { new ProductDTO { Id = 1, Name = "Name 1" } });
 
             var productController = new ProductController(productSevice.Object, categoryService.Object, supplierService.Object, autoMapper, configuration.Object, logger.Object);
 
             // Act
-            var result = productController.Edit(new EditProductViewModel());
+            var result = await productController.Edit(new EditProductViewModel());
 
             // Assert
             Assert.IsType<RedirectToActionResult>(result);

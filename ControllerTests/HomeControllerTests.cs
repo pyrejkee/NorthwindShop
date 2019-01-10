@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -12,7 +13,7 @@ namespace ControllerTests
     public class HomeControllerTests
     {
         [Fact]
-        public void Index_ShouldReturnViewResult()
+        public async Task Index_ShouldReturnViewResult()
         {
             // Arrange
             var productService = new Mock<IProductService>();
@@ -25,7 +26,7 @@ namespace ControllerTests
             var controller = new HomeController(productService.Object, logger.Object, autoMapper);
 
             // Act
-            var result = controller.Index();
+            var result = await controller.Index();
 
             // Assert
             Assert.IsType<ViewResult>(result);

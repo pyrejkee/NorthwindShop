@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace NorthwindShop.BLL.Services.Implementations
 {
@@ -22,62 +23,68 @@ namespace NorthwindShop.BLL.Services.Implementations
             _mapper = mapper;
         }
 
-        public List<CategoryDTO> Get()
+        public async Task<List<CategoryDTO>> Get()
         {
-            var categoriesFromRepo = _repository.Get().ToList();
+            var categoriesFromRepo = await _repository.Get();
             var categories = _mapper.Map<List<CategoryDTO>>(categoriesFromRepo);
 
             return categories;
         }
 
-        public List<CategoryDTO> Get(Func<Category, bool> predicate)
+        public async Task<List<CategoryDTO>> Get(Expression<Func<Category, bool>> predicate)
         {
-            var categoriesFromRepo = _repository.Get(predicate);
+            var categoriesFromRepo = await _repository.Get(predicate);
             var categories = _mapper.Map<List<CategoryDTO>>(categoriesFromRepo);
+
             return categories;
         }
 
-        public void Add(CategoryDTO category)
+        public async Task<CategoryDTO> Add(CategoryDTO category)
         {
             var categoryToRepossitory = _mapper.Map<Category>(category);
-            _repository.Add(categoryToRepossitory);
+            var addedCategory = await _repository.Add(categoryToRepossitory);
+            var categoryDto = _mapper.Map<CategoryDTO>(addedCategory);
+
+            return categoryDto;
         }
 
-        public CategoryDTO GetById(int id)
+        public async Task<CategoryDTO> GetById(int id)
         {
-            var categoriesFromRepo = _repository.GetById(id);
+            var categoriesFromRepo = await _repository.GetById(id);
             var category = _mapper.Map<CategoryDTO>(categoriesFromRepo);
+
             return category;
         }
 
-        public List<CategoryDTO> GetWithInclude(params Expression<Func<Category, object>>[] includeProperties)
+        public async Task<List<CategoryDTO>> GetWithInclude(params Expression<Func<Category, object>>[] includeProperties)
         {
-            var categoriesFromRepo = _repository.GetWithInclude(includeProperties).ToList();
+            var categoriesFromRepo = await _repository.GetWithInclude(includeProperties);
             var categories = _mapper.Map<List<CategoryDTO>>(categoriesFromRepo);
 
             return categories;
         }
 
-        public List<CategoryDTO> GetWithInclude(Func<Category, bool> predicate, params Expression<Func<Category, object>>[] includeProperties)
+        public async Task<List<CategoryDTO>> GetWithInclude(Expression<Func<Category, bool>> predicate, params Expression<Func<Category, object>>[] includeProperties)
         {
-            var categoriesFromRepo = _repository.GetWithInclude(predicate, includeProperties);
+            var categoriesFromRepo = await _repository.GetWithInclude(predicate, includeProperties);
             var categories = _mapper.Map<List<CategoryDTO>>(categoriesFromRepo);
+
             return categories;
         }
 
-        public CategoryDTO Update(CategoryDTO category)
+        public async Task<CategoryDTO> Update(CategoryDTO category)
         {
             var categoryToRepo = _mapper.Map<Category>(category);
-            var updatedCategory = _repository.Update(categoryToRepo);
+            var updatedCategory = await _repository.Update(categoryToRepo);
             var updatedCategoryDto = _mapper.Map<CategoryDTO>(updatedCategory);
 
             return updatedCategoryDto;
         }
 
-        public void Remove(CategoryDTO category)
+        public async Task Remove(CategoryDTO category)
         {
             var categoryToRepo = _mapper.Map<Category>(category);
-            _repository.Remove(categoryToRepo);
+            await _repository.Remove(categoryToRepo);
         }
     }
 }
