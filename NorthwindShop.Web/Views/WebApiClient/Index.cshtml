@@ -1,0 +1,35 @@
+﻿<div>
+    <div class="row justify-content-center mb-3">
+        <a class="btn btn-primary m-3" onclick="showAllProducts();">Show all products</a>
+        <a class="btn btn-primary m-3" onclick="showAllCategories();">Show all categories</a>
+    </div>
+    <div class="row justify-content-center mb-3">
+        <ul class="list-unstyled" id="itemContainer"/>
+    </div>
+</div>
+
+<script>
+    function showAllProducts() {
+        $.getJSON('api/products')
+            .done(function (data) {
+                $('#itemContainer').empty();
+                $.each(data, function(key, item) {
+                    $('<li>', { text: formatItem(item) }).appendTo($('#itemContainer'));
+                });
+            });
+    }
+
+    function showAllCategories() {
+        $.getJSON('api/categories')
+            .done(function(data) {
+                $('#itemContainer').empty();
+                $.each(data, function(key, item) {
+                        $('<li>', { text: formatItem(item) }).appendTo($('#itemContainer'));
+                });
+            });
+    }
+
+    function formatItem(item) {
+        return item.id + ' ' + item.name;
+    }
+</script>
