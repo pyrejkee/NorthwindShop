@@ -34,6 +34,7 @@ namespace NorthwindShop.Web.Controllers
         }
 
         [Route("Error/500")]
+        [HttpGet]
         public IActionResult Error500()
         {
             var contextFeature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();
