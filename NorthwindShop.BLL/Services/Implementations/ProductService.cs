@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AutoMapper;
 using NorthwindShop.BLL.EntitiesDTO;
 using NorthwindShop.DAL.Entities;
@@ -22,65 +22,67 @@ namespace NorthwindShop.BLL.Services.Implementations
             _mapper = mapper;
         }
 
-        public List<ProductDTO> Get()
+        public async Task<List<ProductDTO>> Get()
         {
-            var productsFromRepo = _repository.Get().ToList();
+            var productsFromRepo = await _repository.Get();
             var products = _mapper.Map<List<ProductDTO>>(productsFromRepo);
 
             return products;
         }
 
-        public List<ProductDTO> Get(Func<Product, bool> predicate)
+        public async Task<List<ProductDTO>> Get(Expression<Func<Product, bool>> predicate)
         {
-            var productsFromRepo = _repository.Get(predicate);
+            var productsFromRepo = await _repository.Get(predicate);
             var products = _mapper.Map<List<ProductDTO>>(productsFromRepo);
+
             return products;
         }
 
-        public ProductDTO Add(ProductDTO product)
+        public async Task<ProductDTO> Add(ProductDTO product)
         {
             var productToRepository = _mapper.Map<Product>(product);
-            var addedProduct = _repository.Add(productToRepository);
-            var productDTO = _mapper.Map<ProductDTO>(addedProduct);
+            var addedProduct = await _repository.Add(productToRepository);
+            var productDto = _mapper.Map<ProductDTO>(addedProduct);
 
-            return productDTO;
+            return productDto;
         }
 
-        public ProductDTO GetById(int id)
+        public async Task<ProductDTO> GetById(int id)
         {
-            var productFromRepo = _repository.GetById(id);
+            var productFromRepo = await _repository.GetById(id);
             var product = _mapper.Map<ProductDTO>(productFromRepo);
+
             return product;
         }
 
-        public List<ProductDTO> GetWithInclude(params Expression<Func<Product, object>>[] includeProperties)
+        public async Task<List<ProductDTO>> GetWithInclude(params Expression<Func<Product, object>>[] includeProperties)
         {
-            var productsFromRepo = _repository.GetWithInclude(includeProperties).ToList();
+            var productsFromRepo = await _repository.GetWithInclude(includeProperties);
             var products = _mapper.Map<List<ProductDTO>>(productsFromRepo);
 
             return products;
         }
 
-        public List<ProductDTO> GetWithInclude(Func<Product, bool> predicate, params Expression<Func<Product, object>>[] includeProperties)
+        public async Task<List<ProductDTO>> GetWithInclude(Expression<Func<Product, bool>> predicate, params Expression<Func<Product, object>>[] includeProperties)
         {
-            var productFromRepo = _repository.GetWithInclude(predicate, includeProperties);
+            var productFromRepo = await _repository.GetWithInclude(predicate, includeProperties);
             var products = _mapper.Map<List<ProductDTO>>(productFromRepo);
+
             return products;
         }
 
-        public ProductDTO Update(ProductDTO product)
+        public async Task<ProductDTO> Update(ProductDTO product)
         {
             var productToRepo = _mapper.Map<Product>(product);
-            var updatedProduct = _repository.Update(productToRepo);
+            var updatedProduct = await _repository.Update(productToRepo);
             var productDto = _mapper.Map<ProductDTO>(updatedProduct);
 
             return productDto;
         }
 
-        public void Remove(ProductDTO product)
+        public async Task Remove(int id)
         {
-            var productToRepo = _mapper.Map<Product>(product);
-            _repository.Remove(productToRepo);
+            await _repository.Remove(id);
         }
     }
 }

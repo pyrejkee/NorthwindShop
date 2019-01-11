@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NorthwindShop.DAL.Interfaces;
 
@@ -18,51 +19,57 @@ namespace NorthwindShop.DAL.Repositories
             _dbSet = _northwindDbContext.Set<T>();
         }
 
-        public T Add(T entity)
+        public async Task<T> Add(T entity)
         {
             _dbSet.Add(entity);
-            _northwindDbContext.SaveChanges();
+            await _northwindDbContext.SaveChangesAsync();
             return entity;
         }
 
-        public T GetById(int id)
+        public async Task<T> GetById(int id)
         {
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id);
         }
 
-        public IEnumerable<T> Get()
+        public async Task<IEnumerable<T>> Get()
         {
-            return _dbSet.AsNoTracking().AsEnumerable();
+            return await _dbSet.AsNoTracking().ToListAsync();
         }
 
-        public IEnumerable<T> Get(Func<T, bool> predicate)
+        public async Task<IEnumerable<T>> Get(Expression<Func<T, bool>> predicate)
         {
-            return _dbSet.AsNoTracking().Where(predicate);
+            return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
 
-        public IEnumerable<T> GetWithInclude(params Expression<Func<T, object>>[] includeProperties)
+        public async Task<IEnumerable<T>> GetWithInclude(params Expression<Func<T, object>>[] includeProperties)
         {
-            return Include(includeProperties).AsEnumerable();
+            return await Include(includeProperties).ToListAsync();
         }
 
-        public IEnumerable<T> GetWithInclude(Func<T, bool> predicate, params Expression<Func<T, object>>[] includeProperties)
+        public async Task<IEnumerable<T>> GetWithInclude(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
         {
             var query = Include(includeProperties);
-            return query.Where(predicate);
+            return await query.Where(predicate).ToListAsync();
         }
 
-        public T Update(T entity)
+        public async Task<T> Update(T entity)
         {
             _northwindDbContext.Entry(entity).State = EntityState.Modified;
-            _northwindDbContext.SaveChanges();
+            await _northwindDbContext.SaveChangesAsync();
 
             return entity;
         }
 
-        public void Remove(T entity)
+        public async Task Remove(int id)
         {
+            var entity = await GetById(id);
+            if (entity == null)
+            {
+                throw new InvalidOperationException($"Entity with id {id} was not found.");
+            }
+
             _dbSet.Remove(entity);
-            _northwindDbContext.SaveChanges();
+            await _northwindDbContext.SaveChangesAsync();
         }
 
         private IQueryable<T> Include(params Expression<Func<T, object>>[] includeProperties)

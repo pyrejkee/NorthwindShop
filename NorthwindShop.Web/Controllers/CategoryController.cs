@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
@@ -23,15 +24,15 @@ namespace NorthwindShop.Web.Controllers
             _cache = cache;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var categoriesDtos = _categoryService.Get();
+            var categoriesDtos = await _categoryService.Get();
             var categoriesViewModels = _mapper.Map<List<CategoryViewModel>>(categoriesDtos);
 
             return View(categoriesViewModels);
         }
 
-        public IActionResult Image(int id)
+        public async Task<IActionResult> Image(int id)
         {
             var cachedImage = _cache.Get($"categoryId-{id}");
             if (cachedImage != null)
@@ -39,7 +40,7 @@ namespace NorthwindShop.Web.Controllers
                 return File(cachedImage, "image/jpg");
             }
 
-            var category = _categoryService.GetById(id);
+            var category = await _categoryService.GetById(id);
 
             if(category?.Picture.Length == 0)
             {
@@ -50,9 +51,9 @@ namespace NorthwindShop.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var category = _categoryService.GetById(id);
+            var category = await _categoryService.GetById(id);
             if (category == null)
             {
                 return RedirectToAction(nameof(Index));
@@ -65,7 +66,7 @@ namespace NorthwindShop.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(EditCategoryViewModel model)
+        public async Task<IActionResult> Edit(EditCategoryViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -74,7 +75,7 @@ namespace NorthwindShop.Web.Controllers
 
             var categoryDto = _mapper.Map<CategoryDTO>(model);
 
-            var updatedCategory = _categoryService.Update(categoryDto);
+            var updatedCategory = await _categoryService.Update(categoryDto);
 
             return RedirectToAction(nameof(Index));
         }

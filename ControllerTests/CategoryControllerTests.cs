@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace ControllerTests
     public class CategoryControllerTests
     {
         [Fact]
-        public void Index_WhenThereAreExistCategories_ShouldReturnViewWithCategories()
+        public async Task Index_WhenThereAreExistCategories_ShouldReturnViewWithCategories()
         {
             // Arrange
             var configMapper = new MapperConfiguration(cfg =>
@@ -32,15 +33,15 @@ namespace ControllerTests
             var autoMapper = configMapper.CreateMapper();
             var categoryService = new Mock<ICategoryService>();
             var distributedCache = new Mock<IDistributedCache>();
-            categoryService.Setup(x => x.Get()).Returns(GetCategoryDTOs());
+            categoryService.Setup(x => x.Get()).ReturnsAsync(GetCategoryDTOs());
             var controller = new CategoryController(categoryService.Object, autoMapper, distributedCache.Object);
 
             // Act
-            var result = controller.Index();
+            var result = await controller.Index();
 
             // Assert
             Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<List<CategoryViewModel>>(((ViewResult) result).ViewData.Model);
+            var model = Assert.IsAssignableFrom<List<CategoryViewModel>>(((ViewResult)result).ViewData.Model);
             IEnumerable<CategoryViewModel> expectedCategoryViewModels = new List<CategoryViewModel>
             {
                 new CategoryViewModel { Id = 1, Name = "Category 1", Description = "Description 1"},
@@ -50,7 +51,7 @@ namespace ControllerTests
         }
 
         [Fact]
-        public void Image_ShouldReturnFileContentResult()
+        public async Task Image_ShouldReturnFileContentResult()
         {
             // Arrange
             var configMapper = new MapperConfiguration(cfg =>
@@ -63,14 +64,14 @@ namespace ControllerTests
             var controller = new CategoryController(categoryService.Object, autoMapper, distributedCache.Object);
 
             // Act
-            var result = controller.Image(1);
+            var result = await controller.Image(1);
 
             // Assert
             Assert.IsType<FileContentResult>(result);
         }
 
         [Fact]
-        public void EditCategory_GET_WhenSpecifiedCategoryWasNotFound_ShouldReturnRedirectToIndex()
+        public async Task EditCategory_GET_WhenSpecifiedCategoryWasNotFound_ShouldReturnRedirectToIndex()
         {
             // Arrange
             var configMapper = new MapperConfiguration(cfg =>
@@ -80,12 +81,12 @@ namespace ControllerTests
             var autoMapper = configMapper.CreateMapper();
             var categoryService = new Mock<ICategoryService>();
             var distributedCache = new Mock<IDistributedCache>();
-            categoryService.Setup(x => x.Get()).Returns(GetCategoryDTOs());
+            categoryService.Setup(x => x.Get()).ReturnsAsync(GetCategoryDTOs());
             var controller = new CategoryController(categoryService.Object, autoMapper, distributedCache.Object);
             var categoryId = 3;
 
             // Act
-            var result = controller.Edit(categoryId);
+            var result = await controller.Edit(categoryId);
 
             // Assert
             var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
@@ -93,7 +94,7 @@ namespace ControllerTests
         }
 
         [Fact]
-        public void EditCategory_GET_WhenSpecifiedCategoryExists_ShouldReturnViewWithViewModel()
+        public async Task EditCategory_GET_WhenSpecifiedCategoryExists_ShouldReturnViewWithViewModel()
         {
             // Arrange
             var configMapper = new MapperConfiguration(cfg =>
@@ -105,12 +106,12 @@ namespace ControllerTests
             var distributedCache = new Mock<IDistributedCache>();
 
             var categoryId = 2;
-            categoryService.Setup(x => x.GetById(categoryId)).Returns(GetCategoryDTOs().FirstOrDefault(x => x.Id == categoryId));
+            categoryService.Setup(x => x.GetById(categoryId)).ReturnsAsync(GetCategoryDTOs().FirstOrDefault(x => x.Id == categoryId));
             var controller = new CategoryController(categoryService.Object, autoMapper, distributedCache.Object);
             
 
             // Act
-            var result = controller.Edit(categoryId);
+            var result = await controller.Edit(categoryId);
 
             // Assert
             Assert.IsType<ViewResult>(result);
@@ -124,7 +125,7 @@ namespace ControllerTests
         }
 
         [Fact]
-        public void EditCategory_POST_WhenModelStateIsInvalidValid_ShouldReturnBadRequest()
+        public async Task EditCategory_POST_WhenModelStateIsInvalidValid_ShouldReturnBadRequest()
         {
             // Arrange
             var autoMapper = new Mock<IMapper>();
@@ -134,7 +135,7 @@ namespace ControllerTests
             controller.ModelState.AddModelError("SomeKey", "SomeError");
 
             // Act
-            var result = controller.Edit(It.IsAny<EditCategoryViewModel>());
+            var result = await controller.Edit(It.IsAny<EditCategoryViewModel>());
 
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -142,7 +143,7 @@ namespace ControllerTests
         }
 
         [Fact]
-        public void EditCategory_POST_WhenModelStateIsValid_ShouldUpdateCategory()
+        public async Task EditCategory_POST_WhenModelStateIsValid_ShouldUpdateCategory()
         {
             // Arrange
             var configMapper = new MapperConfiguration(cfg =>
@@ -181,7 +182,7 @@ namespace ControllerTests
             var controller = new CategoryController(categoryService, autoMapper, distributedCache.Object);
 
             // Act
-            var result = controller.Edit(newEditCategoryViewModel);
+            var result = await controller.Edit(newEditCategoryViewModel);
 
             // Assert
             baseRepository.Verify(x => x.Update(It.IsAny<Category>()), Times.Once());

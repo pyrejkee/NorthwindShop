@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
@@ -24,15 +25,16 @@ namespace NorthwindShop.Web.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var productDtos = _productService.GetWithInclude(c => c.Category, s => s.Supplier).Take(3);
+            var productDtos = (await _productService.GetWithInclude(c => c.Category, s => s.Supplier)).Take(3);
             var productsViewModel = _mapper.Map<List<ProductViewModel>>(productDtos);
 
             return View(productsViewModel);
         }
 
         [Route("Error/500")]
+        [HttpGet]
         public IActionResult Error500()
         {
             var contextFeature = this.HttpContext.Features.Get<IExceptionHandlerFeature>();

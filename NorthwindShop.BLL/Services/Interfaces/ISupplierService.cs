@@ -3,18 +3,26 @@ using NorthwindShop.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace NorthwindShop.BLL.Services.Interfaces
 {
     public interface ISupplierService
     {
-        void Add(SupplierDTO supplier);
-        SupplierDTO GetById(int id);
-        List<SupplierDTO> Get();
-        List<SupplierDTO> Get(Func<Supplier, bool> predicate);
-        List<SupplierDTO> GetWithInclude(params Expression<Func<Supplier, object>>[] includeProperties);
-        List<SupplierDTO> GetWithInclude(Func<Supplier, bool> predicate, params Expression<Func<Supplier, object>>[] includeProperties);
-        void Update(SupplierDTO supplier);
-        void Remove(SupplierDTO supplier);
+        Task<SupplierDTO> Add(SupplierDTO supplier);
+
+        Task<SupplierDTO> GetById(int id);
+
+        Task<List<SupplierDTO>> Get();
+
+        Task<List<SupplierDTO>> Get(Expression<Func<Supplier, bool>> predicate);
+
+        Task<List<SupplierDTO>> GetWithInclude(params Expression<Func<Supplier, object>>[] includeProperties);
+
+        Task<List<SupplierDTO>> GetWithInclude(Expression<Func<Supplier, bool>> predicate, params Expression<Func<Supplier, object>>[] includeProperties);
+
+        Task<SupplierDTO> Update(SupplierDTO supplier);
+
+        Task Remove(int id);
     }
 }

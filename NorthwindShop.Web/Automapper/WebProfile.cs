@@ -34,6 +34,7 @@ namespace NorthwindShop.Web.Automapper
                 .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.UnitPrice))
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
                 .ForMember(dest => dest.SupplierId, opt => opt.MapFrom(src => src.SupplierId))
+                .ReverseMap()
                 .ForAllOtherMembers(opt => opt.Ignore());
 
             CreateMap<CategoryDTO, CategoryForProductViewModel>()

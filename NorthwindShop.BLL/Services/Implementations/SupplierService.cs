@@ -5,8 +5,8 @@ using NorthwindShop.DAL.Entities;
 using NorthwindShop.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace NorthwindShop.BLL.Services.Implementations
 {
@@ -22,59 +22,68 @@ namespace NorthwindShop.BLL.Services.Implementations
             _mapper = mapper;
         }
 
-        public List<SupplierDTO> Get()
+        public async Task<List<SupplierDTO>> Get()
         {
-            var suppliersFromRepo = _repository.Get().ToList();
+            var suppliersFromRepo = await _repository.Get();
             var suppliers = _mapper.Map<List<SupplierDTO>>(suppliersFromRepo);
 
             return suppliers;
         }
 
-        public List<SupplierDTO> Get(Func<Supplier, bool> predicate)
+        public async Task<List<SupplierDTO>> Get(Expression<Func<Supplier, bool>> predicate)
         {
-            var suppliersFromRepo = _repository.Get(predicate);
+            var suppliersFromRepo = await _repository.Get(predicate);
             var suppliers = _mapper.Map<List<SupplierDTO>>(suppliersFromRepo);
+
             return suppliers;
         }
 
-        public void Add(SupplierDTO supplier)
+        public async Task<SupplierDTO> Add(SupplierDTO supplier)
         {
             var supplierToRepossitory = _mapper.Map<Supplier>(supplier);
-            _repository.Add(supplierToRepossitory);
+            var addedSupplier = await _repository.Add(supplierToRepossitory);
+            var supplierDto = _mapper.Map<SupplierDTO>(addedSupplier);
+
+            return supplierDto;
+
         }
 
-        public SupplierDTO GetById(int id)
+        public async Task<SupplierDTO> GetById(int id)
         {
-            var suppliersFromRepo = _repository.GetById(id);
+            var suppliersFromRepo = await _repository.GetById(id);
             var supplier = _mapper.Map<SupplierDTO>(suppliersFromRepo);
+
             return supplier;
         }
 
-        public List<SupplierDTO> GetWithInclude(params Expression<Func<Supplier, object>>[] includeProperties)
+        public async Task<List<SupplierDTO>> GetWithInclude(params Expression<Func<Supplier, object>>[] includeProperties)
         {
-            var suppliersFromRepo = _repository.GetWithInclude(includeProperties).ToList();
+            var suppliersFromRepo = await _repository.GetWithInclude(includeProperties);
             var suppliers = _mapper.Map<List<SupplierDTO>>(suppliersFromRepo);
 
             return suppliers;
         }
 
-        public List<SupplierDTO> GetWithInclude(Func<Supplier, bool> predicate, params Expression<Func<Supplier, object>>[] includeProperties)
+        public async Task<List<SupplierDTO>> GetWithInclude(Expression<Func<Supplier, bool>> predicate, params Expression<Func<Supplier, object>>[] includeProperties)
         {
-            var suppliersFromRepo = _repository.GetWithInclude(predicate, includeProperties);
+            var suppliersFromRepo = await _repository.GetWithInclude(predicate, includeProperties);
             var suppliers = _mapper.Map<List<SupplierDTO>>(suppliersFromRepo);
+
             return suppliers;
         }
 
-        public void Update(SupplierDTO supplier)
-        {
-            var categoryToRepo = _mapper.Map<Supplier>(supplier);
-            _repository.Update(categoryToRepo);
-        }
-
-        public void Remove(SupplierDTO supplier)
+        public async Task<SupplierDTO> Update(SupplierDTO supplier)
         {
             var supplierToRepo = _mapper.Map<Supplier>(supplier);
-            _repository.Remove(supplierToRepo);
+            var updatedSupplier = await _repository.Update(supplierToRepo);
+            var supplierDto = _mapper.Map<SupplierDTO>(updatedSupplier);
+
+            return supplierDto;
+        }
+
+        public async Task Remove(int id)
+        {
+            await _repository.Remove(id);
         }
     }
 }
