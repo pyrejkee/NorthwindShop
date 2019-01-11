@@ -60,8 +60,14 @@ namespace NorthwindShop.DAL.Repositories
             return entity;
         }
 
-        public async Task Remove(T entity)
+        public async Task Remove(int id)
         {
+            var entity = await GetById(id);
+            if (entity == null)
+            {
+                throw new InvalidOperationException($"Entity with id {id} was not found.");
+            }
+
             _dbSet.Remove(entity);
             await _northwindDbContext.SaveChangesAsync();
         }

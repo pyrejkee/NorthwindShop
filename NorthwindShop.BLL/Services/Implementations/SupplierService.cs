@@ -81,10 +81,9 @@ namespace NorthwindShop.BLL.Services.Implementations
             return supplierDto;
         }
 
-        public async Task Remove(SupplierDTO supplier)
+        public async Task Remove(int id)
         {
-            var supplierToRepo = _mapper.Map<Supplier>(supplier);
-            await _repository.Remove(supplierToRepo);
+            await _repository.Remove(id);
         }
     }
 }

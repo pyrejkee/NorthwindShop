@@ -23,6 +23,6 @@ namespace NorthwindShop.BLL.Services.Interfaces
 
         Task<CategoryDTO> Update(CategoryDTO category);
 
-        Task Remove(CategoryDTO category);
+        Task Remove(int id);
     }
 }

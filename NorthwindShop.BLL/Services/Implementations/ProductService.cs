@@ -80,10 +80,9 @@ namespace NorthwindShop.BLL.Services.Implementations
             return productDto;
         }
 
-        public async Task Remove(ProductDTO product)
+        public async Task Remove(int id)
         {
-            var productToRepo = _mapper.Map<Product>(product);
-            await _repository.Remove(productToRepo);
+            await _repository.Remove(id);
         }
     }
 }

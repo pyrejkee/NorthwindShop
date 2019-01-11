@@ -23,6 +23,6 @@ namespace NorthwindShop.BLL.Services.Interfaces
 
         Task<SupplierDTO> Update(SupplierDTO supplier);
 
-        Task Remove(SupplierDTO supplier);
+        Task Remove(int id);
     }
 }

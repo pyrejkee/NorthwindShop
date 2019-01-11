@@ -81,10 +81,9 @@ namespace NorthwindShop.BLL.Services.Implementations
             return updatedCategoryDto;
         }
 
-        public async Task Remove(CategoryDTO category)
+        public async Task Remove(int id)
         {
-            var categoryToRepo = _mapper.Map<Category>(category);
-            await _repository.Remove(categoryToRepo);
+            await _repository.Remove(id);
         }
     }
 }

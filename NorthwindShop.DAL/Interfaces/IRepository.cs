@@ -21,6 +21,6 @@ namespace NorthwindShop.DAL.Interfaces
 
         Task<T> Update(T entity);
 
-        Task Remove(T entity);
+        Task Remove(int id);
     }
 }
