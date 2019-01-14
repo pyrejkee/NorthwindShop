@@ -15,6 +15,7 @@ namespace NorthwindShop.BLL.Extensions
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ISupplierService, SupplierService>();
+            services.AddScoped<IMessageService, FileMessageService>();
             services.AddAutoMapper();
 
             return services;
