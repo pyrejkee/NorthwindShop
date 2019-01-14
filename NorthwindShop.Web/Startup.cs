@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NorthwindShop.BLL.Extensions;
+using NorthwindShop.DAL;
 using NorthwindShop.Web.Filters;
 using NorthwindShop.Web.Middlware;
 using Swashbuckle.AspNetCore.Swagger;
@@ -41,7 +43,7 @@ namespace NorthwindShop.Web
                     options.Filters.Add(new LogActionFilter(_logger));
                 }
             });
-
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
@@ -78,6 +80,8 @@ namespace NorthwindShop.Web
             app.UseMiddleware<CacheImageMiddlware>();
             app.UseStaticFiles();
             app.UseNodeModules(env.ContentRootPath);
+
+            app.UseAuthentication();
 
             app.UseMvc(ConfigureRoutes);
 

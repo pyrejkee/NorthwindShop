@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NorthwindShop.DAL.Interfaces;
@@ -16,6 +17,9 @@ namespace NorthwindShop.DAL.Extensions
                 {
                     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsAssembly("NorthwindShop.DAL"));
                 });
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<NorthwindContext>()
+                .AddDefaultTokenProviders();
 
             return services;
         }

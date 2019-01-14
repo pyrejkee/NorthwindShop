@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using NorthwindShop.DAL.Entities;
 
 namespace NorthwindShop.DAL
 {
-    public class NorthwindContext : DbContext
+    public class NorthwindContext : IdentityDbContext
     {
         public NorthwindContext()
         {
@@ -30,6 +31,7 @@ namespace NorthwindShop.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.HasKey(e => e.CategoryId);
