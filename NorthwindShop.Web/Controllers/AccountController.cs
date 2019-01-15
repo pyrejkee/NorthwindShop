@@ -32,6 +32,18 @@ namespace NorthwindShop.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(string email, string password, string repassword)
         {
+            if (string.IsNullOrEmpty(email))
+            {
+                ModelState.AddModelError(string.Empty, "Email can not be empty");
+
+                return View();
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                ModelState.AddModelError(string.Empty, "Password can not be empty");
+            }
+
             if (password != repassword)
             {
                 ModelState.AddModelError(string.Empty, "Password don't match");
@@ -96,6 +108,18 @@ namespace NorthwindShop.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password, bool rememberMe)
         {
+            if (string.IsNullOrEmpty(email))
+            {
+                ModelState.AddModelError(string.Empty, "Email can not be empty");
+
+                return View();
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                ModelState.AddModelError(string.Empty, "Password can not be empty");
+            }
+
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
@@ -126,6 +150,13 @@ namespace NorthwindShop.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(string email)
         {
+            if (string.IsNullOrEmpty(email))
+            {
+                ModelState.AddModelError(string.Empty, "Email can not be empty");
+
+                return View();
+            }
+
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
                 return Content("Check your email for a password reset link");
@@ -146,6 +177,11 @@ namespace NorthwindShop.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetPassword(string id, string token, string password, string repassword)
         {
+            if (string.IsNullOrEmpty(password))
+            {
+                ModelState.AddModelError(string.Empty, "Password can not be empty");
+            }
+
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
                 throw new InvalidOperationException();
