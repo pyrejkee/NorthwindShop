@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NorthwindShop.BLL.Constants;
 using NorthwindShop.BLL.Services.Interfaces;
 using NorthwindShop.Web.ViewModels;
 
@@ -31,6 +34,12 @@ namespace NorthwindShop.Web.Controllers
             var productsViewModel = _mapper.Map<List<ProductViewModel>>(productDtos);
 
             return View(productsViewModel);
+        }
+
+        [Authorize(Roles = RoleConstants.Administrator)]
+        public IActionResult OnlyAdminContent()
+        {
+            return Content("This is only for admin content");
         }
 
         [Route("Error/500")]
