@@ -1,19 +1,21 @@
 ﻿@using Microsoft.EntityFrameworkCore.Internal
 @model Dictionary<string, string>
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        @foreach (var level in Model)
-        {
-            if (Model.IndexOf(level) == Model.Count - 1)
+<div class="pt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            @foreach (var level in Model)
             {
-                <li class="breadcrumb-item active">@level.Key</li>
-            }
-            else
-            {
-                <li class="breadcrumb-item"><a href="@level.Value">@level.Key</a></li>
-            }
+                if (Model.IndexOf(level) == Model.Count - 1)
+                {
+                    <li class="breadcrumb-item active">@level.Key</li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item"><a href="@level.Value">@level.Key</a></li>
+                }
 
-        }
-    </ol>
-</nav>
+            }
+        </ol>
+    </nav>
+</div>

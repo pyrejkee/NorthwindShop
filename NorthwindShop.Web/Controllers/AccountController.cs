@@ -106,7 +106,7 @@ namespace NorthwindShop.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password, bool rememberMe)
+        public async Task<IActionResult> Login(string email, string password, bool rememberMe, string returnUrl)
         {
             if (string.IsNullOrEmpty(email))
             {
@@ -139,7 +139,14 @@ namespace NorthwindShop.Web.Controllers
                 return View();
             }
 
-            return Redirect("~/");
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return Redirect("~/");
+            }
         }
 
         public IActionResult ForgotPassword()

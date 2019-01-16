@@ -1,4 +1,8 @@
-﻿<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light py-1">
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light py-1">
     <a class="navbar-brand" asp-action="Index" asp-controller="Home">Northwind Shop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -15,6 +19,29 @@
             <li class="nav-item">
                 <a class="nav-link" asp-action="Index" asp-controller="WebApiClient">Explore UI api</a>
             </li>
+        </ul>
+        <ul class="navbar-nav">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="#">@User.Identity.Name</a>
+                </li>
+                <li class="nav-item">
+                    <form method="post" class="form-inline" asp-action="Logout" asp-controller="Account">
+                        <button type="submit" class="btn btn-primary btn-sm m-1">Logout</button>
+                    </form>
+                </li>
+
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="btn btn-primary btn-sm m-1" asp-action="Register" asp-controller="Account">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary btn-sm m-1" asp-action="Login" asp-controller="Account">Login</a>
+                </li>
+            }
         </ul>
     </div>
 </nav>

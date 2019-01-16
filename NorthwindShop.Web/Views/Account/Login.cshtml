@@ -16,10 +16,13 @@
 
         <div class="form-group row">
             <div class="col-sm-2"></div>
-            <div class="col-sm-10">
+            <div class="d-flex col-sm-10">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="true" name="rememberMe" />
                     <label class="form-check-label">Remember me?</label>
+                </div>
+                <div class="pl-2">
+                    <a asp-action="ForgotPassword" asp-controller="Account">Forgot password?</a>
                 </div>
             </div>
         </div>
